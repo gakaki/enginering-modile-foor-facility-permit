@@ -26,18 +26,20 @@ services:
 #  docker-compose up -d base
 #  docker-compose exec base bash
 
-  python:
-    platform: linux/x86_64
-    image: gakaki/python
-    container_name: python
-    build:
-      context: .
-      dockerfile: DockerfilePythonBase
-      args:
-        progress: plain
-    tty: true
-    stdin_open: true
-
+#  paddleocr:
+#    platform: linux/x86_64
+#    image: gakaki/python
+#    container_name: paddleocr
+#    build:
+#      context: .
+#      dockerfile: DockerfilePythonBase
+#      args:
+#        progress: plain
+#    tty: true
+#    stdin_open: true
+#    volumes:
+#      - ./:/opt
+      
   qdrant:
     image: qdrant/qdrant:v1.3.0
     restart: on-failure
@@ -45,45 +47,45 @@ services:
       - "6333:6333"
       - "6334:6334"
 
-  baseimage:
-    platform: linux/x86_64
-    build:
-      context: .
-      dockerfile: DockerfileBellSoftGraalVM
-      args:
-        progress: plain
+#  baseimage:
+#    platform: linux/x86_64
+#    build:
+#      context: .
+#      dockerfile: DockerfileBellSoftGraalVM
+#      args:
+#        progress: plain
+#
+#    image: baseimage:0.0.1
 
-    image: baseimage:0.0.1
+#  app:
+#    platform: linux/x86_64
+#    depends_on:
+#      - baseimage
+#    build:
+#      context: .
+#      dockerfile: DockerfileBuildNative
+#    image: app:0.0.1
 
-  app:
-    platform: linux/x86_64
-    depends_on:
-      - baseimage
-    build:
-      context: .
-      dockerfile: DockerfileBuildNative
-    image: app:0.0.1
+#  mysql:
+#    image: mysql:8.3.0-oraclelinux8
+#    ports:
+#      - "3306:3306"
+#    volumes:
+#      - ./config/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
+#      - ./data/mysql:/var/lib/mysql
+#    environment:
+#      MYSQL_ROOT_PASSWORD: "root"
+#      TZ: 'Asia/Shanghai'
 
-  mysql:
-    image: mysql:8.3.0-oraclelinux8
-    ports:
-      - "3306:3306"
-    volumes:
-      - ./config/mysql/mysql.cnf:/etc/mysql/conf.d/mysql.cnf:ro
-      - ./data/mysql:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: "root"
-      TZ: 'Asia/Shanghai'
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - ./data/mongo:/data/db
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: root
+#  mongo:
+#    image: mongo:latest
+#    ports:
+#      - "27017:27017"
+#    volumes:
+#      - ./data/mongo:/data/db
+#    environment:
+#      MONGO_INITDB_ROOT_USERNAME: root
+#      MONGO_INITDB_ROOT_PASSWORD: root
 
   redis:
     image: 'redis/redis-stack:latest'

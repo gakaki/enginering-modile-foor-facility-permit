@@ -1,5 +1,6 @@
 package com.food.trucks.utils;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
@@ -26,7 +27,11 @@ import java.util.stream.Stream;
 public class JsonUtils {
     static ObjectMapper objectMapper = new ObjectMapper();
 
-    public static <T> String toJSON(Object target) {
+    static {
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+    }
+
+     public static <T> String toJSON(Object target) {
         try {
             if (Objects.isNull(target)) {
                 return null;
